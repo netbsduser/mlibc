@@ -117,9 +117,51 @@ struct stat {
 	struct timespec st_ctim;
 };
 
+#elif defined (__m68k__)
+
+struct stat {
+	unsigned short st_dev;
+	unsigned short __st_dev_padding;
+	unsigned long st_ino;
+	unsigned short st_mode;
+	unsigned short st_nlink;
+	unsigned short st_uid;
+	unsigned short st_gid;
+	unsigned short st_rdev;
+	unsigned short __st_rdev_padding;
+	unsigned long st_size;
+	unsigned long st_blksize;
+	unsigned long st_blocks;
+	struct timespec st_atim;
+	struct timespec st_mtim;
+	struct timespec st_ctim;
+	unsigned long __padding[2];
+};
+
+struct stat64 {
+	unsigned long long st_dev;
+	unsigned char __st_dev_padding[2];
+	unsigned long __st_ino;
+	unsigned int st_mode;
+	unsigned int st_nlink;
+	unsigned long st_uid;
+	unsigned long st_gid;
+	unsigned long long st_rdev;
+	unsigned char __st_rdev_padding;
+	long long st_size;
+	unsigned long st_blksize;
+	unsigned long long st_blocks;	
+	struct timespec st_atim;
+	struct timespec st_mtim;
+	struct timespec st_ctim;
+	unsigned long long st_ino;
+};
+
 #endif
 
+#ifndef __m68k__
 #define stat64 stat
+#endif
 
 #ifdef __cplusplus
 }
