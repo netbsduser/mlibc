@@ -31,6 +31,10 @@ struct Guard {
 	// the first byte's meaning is fixed by the ABI.
 	// it indicates whether initialization has already been completed.
 	uint8_t complete;
+#ifdef __m68k__
+	/* need additional padding due to m68k having 2-byte alignment */
+	uint8_t padding[3];
+#endif
 
 	// we use some of the remaining bytes to implement a mutex.
 	uint32_t mutex;
