@@ -19,7 +19,7 @@
  * - getspnam_r
  * - getspnam
  */
-#define NUM(n) ((n) == -1 ? 0 : -1), ((n) == -1 ? 0 : (n))
+#define NUM(n) (int((n) == -1 ? 0 : -1)), int(((n) == -1 ? 0 : (n)))
 
 int putspent(const struct spwd *sp, FILE *f) {
 	auto str = [] (char *s) {
