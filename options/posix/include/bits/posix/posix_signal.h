@@ -27,6 +27,7 @@ extern "C" {
 #define TRAP_TRACE      2       /* process trace trap */
 
 // Start Glibc stuff
+#if defined(__i386__) || defined(__x86_64__)
 
 struct _libc_fpxreg {
   unsigned short int significand[4];
@@ -53,9 +54,12 @@ struct _libc_fpstate {
 };
 
 typedef struct _libc_fpstate *fpregset_t;
+#endif
 // End Glibc stuff
 
+#ifndef __m68k__
 typedef unsigned long int greg_t;
+#endif
 
 #define FPE_INTDIV      1       /* integer divide by zero */
 #define FPE_INTOVF      2       /* integer overflow */
