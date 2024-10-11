@@ -56,8 +56,8 @@ char *inet_ntoa(struct in_addr addr) {
 	thread_local static char buffer[16];
 	uint32_t proper = htonl(addr.s_addr);
 	snprintf(buffer, sizeof(buffer), "%d.%d.%d.%d",
-		(proper >> 24) & 0xff, ((proper >> 16) & 0xff),
-		(proper >> 8) & 0xff, proper & 0xff);
+		(int)((proper >> 24) & 0xff), (int)((proper >> 16) & 0xff),
+		(int)((proper >> 8) & 0xff), (int)(proper & 0xff));
 	return buffer;
 }
 int inet_aton(const char *string, struct in_addr *dest) {
@@ -111,10 +111,10 @@ const char *inet_ntop(int af, const void *__restrict src, char *__restrict dst,
 		case AF_INET: {
 			auto source = reinterpret_cast<const struct in_addr*>(src);
 			if (snprintf(dst, size, "%d.%d.%d.%d",
-						source->s_addr & 0xff,
-						(source->s_addr & 0xffff) >> 8,
-						(source->s_addr & 0xffffff) >> 16,
-						source->s_addr >> 24) < (int)size)
+						(int)(source->s_addr & 0xff),
+						(int)((source->s_addr & 0xffff) >> 8),
+						(int)((source->s_addr & 0xffffff) >> 16),
+						(int)(source->s_addr >> 24)) < (int)size)
 				return dst;
 			break;
 		}
