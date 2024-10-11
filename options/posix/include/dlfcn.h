@@ -34,7 +34,7 @@ void *dlvsym(void *__restrict __handle, const char *__restrict __name, const cha
 
 #endif /* !__MLIBC_ABI_ONLY */
 
-#if defined(_GNU_SOURCE) && __MLIBC_GLIBC_OPTION
+#if ((defined(_GNU_SOURCE) || defined(__MLIBC_BUILDING_MLIBC)) && __MLIBC_GLIBC_OPTION)
 
 //gnu extension
 typedef struct {
