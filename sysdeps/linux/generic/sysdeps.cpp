@@ -67,6 +67,13 @@ struct user_desc {
 
 #endif
 
+#if defined(__m68k__)
+void *__m68k_read_tp() {
+	auto ret = do_syscall(333, 0);
+	return (void *)ret;
+}
+#endif
+
 int sys_tcb_set(void *pointer) {
 #if defined(__x86_64__)
 	auto ret = do_syscall(SYS_arch_prctl, 0x1002 /* ARCH_SET_FS */, pointer);
