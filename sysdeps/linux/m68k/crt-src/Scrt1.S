@@ -10,6 +10,6 @@ _start:
 	lea _GLOBAL_OFFSET_TABLE_@GOTPC (%pc), %a5
 	move.l main@GOT(%a5), -(%sp)
 	move.l %sp, -(%sp)
-	jsr __mlibc_entry@PLTPC
+	jbsr __mlibc_entry@PLTPC
 
 .section .note.GNU-stack,"",%progbits
