@@ -150,7 +150,7 @@ typedef __mlibc_int64 __mlibc_int_fast64;
 
 #elif defined (__m68k__)
 
-typedef __mlibc_int32 __mlibc_int_fast8;
+typedef __mlibc_int8 __mlibc_int_fast8;
 #define __MLIBC_INT_FAST8_C(x) __MLIBC_INT8_C(x)
 #define __MLIBC_INT_FAST8_MAX __MLIBC_INT8_MAX
 #define __MLIBC_INT_FAST8_MIN __MLIBC_INT8_MIN
@@ -266,7 +266,7 @@ typedef __mlibc_uint64 __mlibc_uint_fast64;
 
 #elif defined (__m68k__)
 
-typedef __mlibc_uint32 __mlibc_uint_fast8;
+typedef __mlibc_uint8 __mlibc_uint_fast8;
 #define __MLIBC_UINT_FAST8_C(x) __MLIBC_UINT8_C(x)
 #define __MLIBC_UINT_FAST8_MAX __MLIBC_UINT8_MAX
 #define __MLIBC_UINT_FAST8_MIN __MLIBC_UINT8_MIN
