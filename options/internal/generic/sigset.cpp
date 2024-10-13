@@ -16,12 +16,13 @@ int sigfillset(sigset_t *sigset) {
 
 int sigaddset(sigset_t *sigset, int sig) {
 	int signo = sig - 1;
-	if(signo < 0 || static_cast<unsigned int>(signo) >= (sizeof(sigset_t) * CHAR_BIT)) {
+	if (signo < 0 || static_cast<unsigned int>(signo) >= (sizeof(sigset_t) * CHAR_BIT)) {
 		errno = EINVAL;
 		return -1;
 	}
-	auto ptr = reinterpret_cast<char *>(sigset);
-	ptr[signo / CHAR_BIT] |= (1 << (signo % CHAR_BIT));
+	int field = signo / (sizeof(*sigset->sig) * CHAR_BIT);
+	int bit = signo % (sizeof(*sigset->sig) * CHAR_BIT);
+	sigset->sig[field] |= (1UL << bit);
 	return 0;
 }
 
@@ -31,8 +32,9 @@ int sigdelset(sigset_t *sigset, int sig) {
 		errno = EINVAL;
 		return -1;
 	}
-	auto ptr = reinterpret_cast<char *>(sigset);
-	ptr[signo / CHAR_BIT] &= ~(1 << (signo % CHAR_BIT));
+	int field = signo / (sizeof(*sigset->sig) * CHAR_BIT);
+	int bit = signo % (sizeof(*sigset->sig) * CHAR_BIT);
+	sigset->sig[field] &= ~(1UL << bit);
 	return 0;
 }
 
@@ -42,6 +44,7 @@ int sigismember(const sigset_t *sigset, int sig) {
 		errno = EINVAL;
 		return -1;
 	}
-	auto ptr = reinterpret_cast<const char *>(sigset);
-	return (ptr[signo / CHAR_BIT] & (1 << (signo % CHAR_BIT))) != 0;
+	int field = signo / (sizeof(*sigset->sig) * CHAR_BIT);
+	int bit = signo % (sizeof(*sigset->sig) * CHAR_BIT);
+	return (sigset->sig[field] & (1UL << bit)) != 0;
 }
