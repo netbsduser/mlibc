@@ -68,7 +68,7 @@ struct user_desc {
 #endif
 
 #if defined(__m68k__)
-void *__m68k_read_tp() {
+extern "C" void *__m68k_read_tp() {
 	auto ret = do_syscall(333, 0);
 	return (void *)ret;
 }
@@ -648,6 +648,7 @@ int sys_clone(void *tcb, pid_t *pid_out, void *stack) {
 	auto ret = __mlibc_spawn_thread(flags, stack, pid_out, NULL, tcb);
 	if (ret < 0)
 		return ret;
+
 
 	return 0;
 }
