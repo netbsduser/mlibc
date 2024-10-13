@@ -158,6 +158,37 @@ extern "C" void relocateSelf() {
 		}
 	}
 }
+
+extern "C" void relocateSelf68k(elf_dyn *dynamic, uintptr_t ldso_base) {
+	size_t rela_offset = 0;
+	size_t rela_size = 0;
+	for(size_t i = 0; dynamic[i].d_tag != DT_NULL; i++) {
+		auto ent = &dynamic[i];
+		switch(ent->d_tag) {
+		case DT_RELA: rela_offset = ent->d_un.d_ptr; break;
+		case DT_RELASZ: rela_size = ent->d_un.d_val; break;
+		}
+	}
+
+	for(size_t disp = 0; disp < rela_size; disp += sizeof(elf_rela)) {
+		auto reloc = reinterpret_cast<elf_rela *>(ldso_base + rela_offset + disp);
+		auto type = ELF_R_TYPE(reloc->r_info);
+
+		auto p = reinterpret_cast<uintptr_t *>(ldso_base + reloc->r_offset);
+		switch(type) {
+		case R_NONE:
+			break;
+
+		case R_RELATIVE:
+			*p = ldso_base + reloc->r_addend;
+			break;
+		default: {
+			__builtin_trap();
+		}
+		}
+	}
+}
+
 #endif
 
 extern "C" void *lazyRelocate(SharedObject *object, unsigned int rel_index) {

@@ -27,7 +27,7 @@ uintptr_t libraryBase = 0x41000000;
 
 constexpr bool verbose = false;
 constexpr bool stillSlightlyVerbose = false;
-constexpr bool logBaseAddresses = false;
+constexpr bool logBaseAddresses = true;
 constexpr bool logRpath = false;
 constexpr bool logLdPath = false;
 constexpr bool eagerBinding = true;
@@ -665,7 +665,7 @@ void ObjectRepository::_parseDynamic(SharedObject *object) {
 				object->eagerBinding = true;
 
 			auto ignored = DF_BIND_NOW | DF_SYMBOLIC | DF_STATIC_TLS;
-#ifdef __riscv
+#if defined(__riscv) || defined(__m68k__)
 			// Work around https://sourceware.org/bugzilla/show_bug.cgi?id=24673.
 			ignored |= DF_TEXTREL;
 #else
@@ -740,7 +740,7 @@ void ObjectRepository::_parseDynamic(SharedObject *object) {
 		case DT_VERSYM:
 		case DT_VERDEF: case DT_VERDEFNUM:
 		case DT_VERNEED: case DT_VERNEEDNUM:
-#ifdef __riscv
+#if defined(__riscv) || defined(__m68k__)
 		case DT_TEXTREL: // Work around https://sourceware.org/bugzilla/show_bug.cgi?id=24673.
 #endif
 			break;
