@@ -24,7 +24,6 @@ all_test_cases = [
 	'ansi/fopen',
 	'ansi/memmem',
 	'ansi/creal-cimag',
-	'ansi/fenv',
 	'ansi/qsort',
 	'ansi/freopen',
 	'ansi/strxfrm',
@@ -114,6 +113,10 @@ all_test_cases = [
 	'linux/malloc-usable-size',
 	'linux/getifaddrs',
 ]
+
+if host_machine.cpu_family() != 'm68k'
+	all_test_cases += 'ansi/fenv'
+endif
 
 if host_machine.system() == 'linux'
 	all_test_cases += 'glibc/linux-syscall'
